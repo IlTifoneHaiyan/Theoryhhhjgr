@@ -46,7 +46,7 @@ var init = () => {
     // x
     {
         let getDesc = (level) => "u_x =" + getX(level).toString(0);
-        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.7))));
+        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(10, Math.log2(1.1))));
         x.getDescription = (_) => Utils.getMath(getDesc(x.level));
         x.getInfo = (amount) => Utils.getMathTo(getDesc(x.level), getDesc(x.level + amount));
     }
@@ -60,8 +60,8 @@ var init = () => {
     
     // z
     {
-        let getDesc = (level) => "u_z = " + level + "^{ e^{1.7} / \\sqrt{1 + " + x.level + "}}";
-        z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.3)));
+        let getDesc = (level) => "u_z = " + level + "^{ e^{3.1} / \\cbrt{1 + " + x.level + "}}";
+        z = theory.createUpgrade(3, currency, new ExponentialCost(40, Math.log2(2.3)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getZ(z.level), getZ(z.level + amount));
     }
@@ -74,7 +74,7 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
     
     {
-        pubM = theory.createPermanentUpgrade(3, currency, new ExponentialCost(1e20, Math.log2(50)));
+        pubM = theory.createPermanentUpgrade(3, currency, new ExponentialCost(100, Math.log2(5)));
         pubM.getDescription = (_) => " $\\uparrow$ Pub multiplier by 0.1";
         pubM.getInfo = (amount) => "Increases Pub multiplier";
     }
@@ -294,7 +294,7 @@ var getC = (level) => Utils.getStepwisePowerSum(level, 2, 8, 1);
 var getX = (level) => Utils.getStepwisePowerSum(level, 4, 6, 0);
 var getY = (level) => BigNumber.TWO.pow(level);
 var getZ = (level) => {
-    let index = BigNumber.E.pow(1.7) / ( BigNumber.from(x.level + BigNumber.ONE).sqrt() );
+    let index = BigNumber.E.pow(3.1) / ( BigNumber.from(x.level + BigNumber.ONE).cbrt() );
     return BigNumber.from(level).pow(index);
 }
 
